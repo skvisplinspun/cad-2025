@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .todo-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-top: 20px;
+        }
+
+        .task-card {
+            border-left: 4px solid #667eea;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .task-card.completed {
+            border-left-color: #28a745;
+            opacity: 0.8;
+        }
+
+        .task-card.completed .task-title {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <!-- Заголовок -->
+            <div class="text-center mb-4">
+                <h1 class="text-white display-4">📝 ToDo List</h1>
+                <p class="text-white-50">Управление задачами с Spring MVC</p>
+            </div>
+
+            <!-- Основной контейнер -->
+            <div class="todo-container">
+                <!-- Список задач -->
+                <div th:if="${tasks.empty}" class="text-center py-5">
+                    <h4 class="text-muted">🎉 Нет задач!</h4>
+                    <p class="text-muted">Добавьте свою первую задачу ниже</p>
+                </div>
+
+                <div th:each="task : ${tasks}" class="card task-card"
+                     th:classappend="${task.completed} ? 'completed' : ''">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="task-title card-title" th:text="${task.title}">Название</h5>
+                                <p class="card-text text-muted" th:text="${task.description}">Описание</p>
+                                <span class="badge"
+                                      th:class="${task.completed} ? 'bg-success' : 'bg-warning text-dark'"
+                                      th:text="${task.completed} ? '✓ Выполнено' : '⏳ В ожидании'">
+                                    </span>
+                            </div>
+                            <div class="btn-group">
+                                <!-- Кнопка изменения статуса -->
+                                <a th:href="@{/toggle/{id}(id=${task.id})}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   th:text="${task.completed} ? 'Вернуть в работу' : 'Выполнить'">
+                                </a>
+
+                                <!-- Кнопка удаления -->
+                                <a th:href="@{/delete/{id}(id=${task.id})}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Удалить задачу: \'' + '[[${task.title}]]' + '\'?')">
+                                    Удалить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма добавления задачи -->
+                <div class="mt-5">
+                    <h4 class="mb-3">➕ Добавить новую задачу</h4>
+                    <form th:action="@{/add}" method="post">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Название задачи *</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                   placeholder="Введите название задачи" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание</label>
+                            <textarea class="form-control" id="description" name="description"
+                                      rows="2" placeholder="Введите описание задачи"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            📌 Добавить задачу
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Футер -->
+            <div class="text-center mt-4">
+                <p class="text-white-50">Лабораторная работа №2 - Spring MVC</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
