@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доступ запрещен</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        .error-icon {
+            font-size: 4rem;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <div class="error-icon">🚫</div>
+    <h1 class="text-danger">Доступ запрещен</h1>
+    <p class="lead">У вас нет прав для выполнения этого действия.</p>
+
+    <div class="alert alert-warning mt-4">
+        <h5>Требуемые права:</h5>
+        <p>Для этого действия требуется роль <strong>MODERATOR</strong> или <strong>ADMIN</strong>.</p>
+    </div>
+
+    <div class="mt-4">
+        <a th:href="@{/}" class="btn btn-primary">Вернуться на главную</a>
+        <a th:href="@{/logout}" class="btn btn-outline-secondary">Выйти</a>
+    </div>
+</div>
+</body>
+</html>
